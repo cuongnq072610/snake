@@ -1,19 +1,15 @@
 package game;
 
 import base.*;
-import base.player.Player;
-import base.player.SnakePart;
-import base.renderer.BoxColliderRenderer;
 import base.scene.SceneManager;
-import base.scene.SceneStage1;
-import base.snack.Snack;
+import base.scene.welcomeScene.WelcomeScene;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GameCanvas extends JPanel {
     public GameCanvas() {
-        SceneManager.signNewScene(new SceneStage1());
+        SceneManager.signNewScene(new WelcomeScene());
     }
 
     public void run() {

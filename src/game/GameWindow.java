@@ -4,6 +4,7 @@ import base.event.KeyEventPress;
 import base.Settings;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -12,21 +13,26 @@ public class GameWindow extends JFrame {
 
     public GameWindow() {
         //setup window
-        this.setSize(500, 800);
+//        this.setSize(500, 800);
+
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setupEventListtener();
         //init game
         this.canvas = new GameCanvas();
+        this.canvas.setPreferredSize(new Dimension(Settings.SCREEN_WIDHT, Settings.SCREEN_HEIGHT));
+
         this.add(canvas);
 
         this.setVisible(true);
+        this.pack();
     }
 
     private void setupEventListtener() {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                KeyEventPress.isAnyKeyPress = true;
                 if(e.getKeyCode() == KeyEvent.VK_W) {
                     KeyEventPress.isUpPress = true;
                 }
@@ -46,6 +52,7 @@ public class GameWindow extends JFrame {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                KeyEventPress.isAnyKeyPress = false;
                 if(e.getKeyCode() == KeyEvent.VK_W) {
                     KeyEventPress.isUpPress = false;
                 }

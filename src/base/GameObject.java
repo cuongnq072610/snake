@@ -1,8 +1,10 @@
 package base;
 
 import base.physics.Physics;
+import base.player.SnakeHead;
 import base.renderer.Renderer;
 import base.scene.SceneManager;
+import base.snack.Snack;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -43,7 +45,7 @@ public class GameObject {
     public static <E extends GameObject> E intersect(Class<E> childClass, Physics physics) {
         for(GameObject go : gameObjects) {
             if(go.isActive && childClass.isAssignableFrom(go.getClass())
-                    && go instanceof Physics) {
+                    && go instanceof Physics && physics != go) {
                 Physics physicsGo = (Physics) go;
                 boolean intersected = physics.getBoxCollider().intersect(physicsGo,
                         (GameObject) physics);
@@ -57,7 +59,8 @@ public class GameObject {
 
     public static void runAll() {
         for(GameObject go : gameObjects) {
-            if(go.isActive) {
+
+            if (go.isActive) {
                 go.run();
             }
         }
@@ -93,6 +96,10 @@ public class GameObject {
 
     public void destroy() {
         this.isActive = false;
+    }
+
+    public void reset() {
+        this.isActive = true;
     }
 
     public void run() {

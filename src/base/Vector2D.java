@@ -24,7 +24,14 @@ public class Vector2D {
     public Vector2D set(Vector2D other) {
         return this.set(other.x, other.y);
     }
+    public Vector2D set(String str) {
+        String x = str.substring(str.indexOf(":")+1, str.indexOf(";"));
+        String y = str.substring(str.lastIndexOf(":")+1, str.indexOf(")"));
 
+        float posX = Float.parseFloat(x);
+        float posY = Float.parseFloat(y);
+        return this.set(posX, posY);
+    }
     /**
      * @return an other vector with same x & y
      */
@@ -105,7 +112,7 @@ public class Vector2D {
 
     @Override
     public String toString() {
-        return "(x: " + x + "; y" + y + ")";
+        return "(x: " + x + "; y: " + y + ")";
     }
 
     public static void main(String[] args) {

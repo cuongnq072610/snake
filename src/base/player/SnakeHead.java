@@ -6,6 +6,7 @@ import base.Vector2D;
 import base.renderer.BoxColliderRenderer;
 import base.scene.SceneManager;
 import base.snack.Snack;
+import base.wall.Wall;
 import game.GameCanvas;
 
 import java.awt.*;
@@ -34,24 +35,32 @@ public class SnakeHead extends SnakePart {
             v.y = 0;
         }
         for (Vector2D vec : list) {
-            System.out.println("DONE");
             if (vec.x == v.x && vec.y == v.y) {
                 v = new Vector2D(Settings.WAY_SIZE*r.nextInt(Settings.COL_COUNT)-10,Settings.WAY_SIZE*r.nextInt(Settings.ROW_COUNT)-10);
             }
         }
-
-        System.out.println(v);
         snack.position.set(v);
     }
     private void checkIntersects() {
         //intersect with snake's parts
+        Wall wall = GameObject.intersect(Wall.class,this);
+        if(wall!=null){
+            SceneManager.currentScene.player.hit();
+        }
+        SnakePart part = GameObject.intersect(SnakePart.class, this);
+        // the part isn't the second part
+        if(part!=null && SceneManager.currentScene.player.parts.indexOf(part) != 1){
+            SceneManager.currentScene.player.hit();
+        }
         //intersect with food
         Snack snack = GameObject.intersect(Snack.class, this);
         if(snack != null) {
-            ArrayList<Vector2D> list = SceneManager.currentScene.player.listVectorParts();
+            //ArrayList<Vector2D> list = SceneManager.currentScene.player.listVectorParts();
             snack.destroy();
-            spawn(list);
+            //spawn(list);
             SceneManager.currentScene.player.growUp();
+            SceneManager.currentScene.sm.spawnSnack();
+
         }
     }
 }
